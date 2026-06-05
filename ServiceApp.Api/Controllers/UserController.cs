@@ -8,6 +8,8 @@ using ServiceApp.Application.Services;
 
 namespace ServiceApp.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
