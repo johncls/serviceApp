@@ -27,9 +27,14 @@ public class WhatsAppService : IWhatsAppService
         {
             var phone = user.PhoneNumber;
             var message = Uri.EscapeDataString(user.Message);
+            string url = "";
 
-            var url = $"https://wa.me/{phone}?text={message}";
-
+            if(string.IsNullOrEmpty(message)){
+                url = $"https://chat.whatsapp.com/{phone}";
+                 
+            }else{
+                url = $"https://chat.whatsapp.com/{phone}?text={message}";
+            }
 
             if(string.IsNullOrEmpty(url))
             {
