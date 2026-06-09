@@ -13,4 +13,10 @@ namespace ServiceApp.Application.DTOs
         public string Message { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
     }
+
+    public class UserLoginRequestDto
+    {
+        public string Identification { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
 }

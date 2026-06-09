@@ -22,13 +22,6 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<User>> GetAllUsersAsync()
-    {
-        return await _context.Users
-            .Find(_ => true)
-            .ToListAsync();
-    }
-
     public async Task<User?> GetByIdAsync(string identification)
     {
         return await _context.Users
@@ -43,13 +36,21 @@ public class UserRepository : IUserRepository
 
     public async Task<User> CreateAsync(User user)
     {
-        var existingUser = await _context.Users
-            .Find(u => u.Identification == user.Identification)
-            .FirstOrDefaultAsync();
+        var filter = Builders<User>.Filter.Or(
+            Builders<User>.Filter.Eq(u => u.Identification, user.Identification),
+            Builders<User>.Filter.Eq(u => u.PhoneNumber, user.PhoneNumber)
+        );
+        
+        var existingUser = await _context.Users.Find(filter).FirstOrDefaultAsync();
 
         if (existingUser != null)
         {
-            throw new Exception("User already exists");
+            if (existingUser.Identification == user.Identification)
+            {
+                throw new Exception("User with this identification already exists");
+            }
+
+            throw new Exception("User with this phone number already exists");
         }
 
         await _context.Users.InsertOneAsync(user);
@@ -66,5 +67,24 @@ public class UserRepository : IUserRepository
     {
         return _context.Users.
         Find(_ => true).ToListAsync();
+    }
+
+    public Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<User>> GetAllUsersListAsync(int page = 1, int pageSize = 10)
+    {
+        return _context.Users
+            .Find(_ => true)
+            .Skip((page - 1) * pageSize)
+            .Limit(pageSize)
+            .ToListAsync();
+    }
+
+    public Task ResetAllCountersAsync()
+    {
+        return _context.Users.UpdateManyAsync(_ => true, Builders<User>.Update.Set(u => u.MessageCount, 0));
     }
 }

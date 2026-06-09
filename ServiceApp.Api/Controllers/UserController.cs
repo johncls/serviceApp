@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceApp.Application.DTOs;
 using ServiceApp.Application.Services;
 
 namespace ServiceApp.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -34,9 +32,9 @@ namespace ServiceApp.Api.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<ActionResult<IEnumerable<UserResponseDto>>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<UserResponseDto>>> GetAllUsers(int page = 1, int pageSize = 10)
         {
-            var result = await _userService.GetAllUsersAsync();
+            var result = await _userService.GetAllUsersAsync(page, pageSize);
             return Ok(result);
         }
 
@@ -53,5 +51,12 @@ namespace ServiceApp.Api.Controllers
             var result = await _userService.DeleteUserAsync(identification);
             return Ok(result);
         }
+
+        [HttpPost("resetCounter")]
+        public async Task<ActionResult<UserResponseDto>> ResetCounter()
+        {
+            var result = await _userService.ResetCounterAsync();
+            return Ok(result);
+        }
     }
-}
+}       
