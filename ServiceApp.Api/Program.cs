@@ -14,7 +14,6 @@ var jwtAudience = builder.Configuration["Jwt:Audience"]!;
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();
 
 // MongoDB Configuration
@@ -92,8 +91,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+var enableSwagger = app.Environment.IsDevelopment()
+    || builder.Configuration.GetValue<bool>("EnableSwagger");
+
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
+if (enableSwagger)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
