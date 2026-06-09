@@ -1,6 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.11" />
+  <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+  <PackageReference Include="MongoDB.Driver" Version="3.9.0" />
     <ProjectReference Include="..\ServiceApp.Domain\ServiceApp.Domain.csproj" />
   </ItemGroup>
 

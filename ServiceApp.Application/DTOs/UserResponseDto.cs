@@ -14,6 +14,13 @@ namespace ServiceApp.Application.DTOs
         public string? PhoneNumber { get; set; }
     }
 
+    public class UserLoginResponseDto
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public string? Token { get; set; }
+    }
+
     public class UserResponseDtoList
     {
         public string _id { get; set; } = string.Empty;

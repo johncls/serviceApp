@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ServiceApp.Application.DTOs;
 using ServiceApp.Domain.Entities;
 using ServiceApp.Domain.Interfaces;
@@ -11,7 +7,6 @@ namespace ServiceApp.Application.Services
     public class UserService
     {
         private readonly IUserRepository _userRepository;
-
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -72,9 +67,9 @@ namespace ServiceApp.Application.Services
             return new UserResponseDto { Success = true, Message = "User deleted successfully" };
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync(int page = 1, int pageSize = 10)
         {
-            var users = await _userRepository.GetAllUsersListAsync();
+            var users = await _userRepository.GetAllUsersListAsync(page, pageSize);
 
             return users;
         }
@@ -88,5 +83,11 @@ namespace ServiceApp.Application.Services
             }
             return new UserResponseDto { Success = true, Message = "User retrieved successfully", UserId = user._id, UserName = user.Name, PhoneNumber = user.PhoneNumber };
         }
+        public async Task<UserResponseDto> ResetCounterAsync()
+        {
+            await _userRepository.ResetAllCountersAsync();
+            return new UserResponseDto { Success = true, Message = "Counter reset successfully" };
+        }
+
     }
 }
