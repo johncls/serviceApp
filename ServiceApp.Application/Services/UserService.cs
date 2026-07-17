@@ -14,6 +14,11 @@ namespace ServiceApp.Application.Services
 
         public async Task<UserResponseDto> CreateUserAsync(UserRequestDto request)
         {
+            var existingUser = await _userRepository.GetByIdAsync(request.Identification);
+            if (existingUser != null)
+            {
+                return new UserResponseDto { Success = false, Message = "La identificación ya está en uso" };
+            }
             var user = new User
             {
                 _id = Guid.NewGuid().ToString(),
@@ -27,6 +32,7 @@ namespace ServiceApp.Application.Services
                 UpdatedAt = DateTime.UtcNow,
                 IsActive = request.IsActive
             };
+
 
             var result = await _userRepository.CreateAsync(user);
 
@@ -67,11 +73,16 @@ namespace ServiceApp.Application.Services
             return new UserResponseDto { Success = true, Message = "User deleted successfully" };
         }
 
-        public async Task<List<User>> GetAllUsersAsync(int page = 1, int pageSize = 10)
+        public async Task<UserResponseDtoListPaginations> GetAllUsersAsync(int page = 1, int pageSize = 10)
         {
             var users = await _userRepository.GetAllUsersListAsync(page, pageSize);
-
-            return users;
+            var totalCount = await _userRepository.GetAllUsersCountAsync();
+            var userResponseDataList = new List<UserResponseDtoList>();
+            foreach (var user in users)
+            {
+                userResponseDataList.Add(new UserResponseDtoList { _id = user._id, Identification = user.Identification, Name = user.Name, PhoneNumber = user.PhoneNumber, Message = user.Message, MessageCount = user.MessageCount, Status = user.Status, CreatedAt = user.CreatedAt, UpdatedAt = user.UpdatedAt, LastMessageAt = user.LastMessageAt });
+            }
+            return new UserResponseDtoListPaginations { TotalCount = totalCount, Users = userResponseDataList, Page = page, PageSize = pageSize };
         }
 
         public async Task<UserResponseDto> GetUserByIdAsync(string identification)

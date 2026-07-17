@@ -69,9 +69,11 @@ public class UserRepository : IUserRepository
         Find(_ => true).ToListAsync();
     }
 
-    public Task<IEnumerable<User>> GetAllUsersAsync()
+    public Task<long> GetAllUsersCountAsync()
     {
-        throw new NotImplementedException();
+        return _context.Users
+            .Find(_ => true)
+            .CountDocumentsAsync();
     }
 
     public Task<List<User>> GetAllUsersListAsync(int page = 1, int pageSize = 10)

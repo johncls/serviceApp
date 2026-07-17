@@ -35,4 +35,13 @@ namespace ServiceApp.Application.DTOs
         public DateTime? LastMessageAt { get; set; }
         public bool IsActive { get; set; } = true;
     }
+
+    public class UserResponseDtoListPaginations
+    {
+        public long TotalCount { get; set; }
+        public IEnumerable<UserResponseDtoList> Users { get; set; } = new List<UserResponseDtoList>();
+        public int Page { get; set; }
+        public int PageSize { get; set; }   
+        public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+    }
 }

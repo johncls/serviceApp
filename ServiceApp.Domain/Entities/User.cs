@@ -14,7 +14,7 @@ public class User
     public DateTime? UpdatedAt { get; set; }
     public DateTime? LastMessageAt { get; set; }
     public bool IsActive { get; set; } = true;
-
+    
 }
 
 public class UserLogin
