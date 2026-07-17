@@ -5,7 +5,7 @@ namespace ServiceApp.Domain.Interfaces;
 public interface IUserRepository
 {
     Task<User?> GetUserWithLeastMessagesAsync();
-    Task<IEnumerable<User>> GetAllUsersAsync();
+    Task<long> GetAllUsersCountAsync();
     Task<User?> GetByIdAsync(string identification);
     Task UpdateAsync(User user);
     Task<User> CreateAsync(User user);

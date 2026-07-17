@@ -32,7 +32,7 @@ namespace ServiceApp.Api.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<ActionResult<IEnumerable<UserResponseDto>>> GetAllUsers(int page = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<UserResponseDtoListPaginations>>> GetAllUsers(int page = 1, int pageSize = 10)
         {
             var result = await _userService.GetAllUsersAsync(page, pageSize);
             return Ok(result);
