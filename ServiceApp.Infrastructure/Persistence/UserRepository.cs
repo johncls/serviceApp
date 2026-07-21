@@ -47,10 +47,10 @@ public class UserRepository : IUserRepository
         {
             if (existingUser.Identification == user.Identification)
             {
-                throw new Exception("User with this identification already exists");
+               return null; // Return the existing user if the identification already exists
             }
 
-            throw new Exception("User with this phone number already exists");
+           return null; // Return the existing user if the phone number already exists
         }
 
         await _context.Users.InsertOneAsync(user);

@@ -36,6 +36,15 @@ namespace ServiceApp.Application.Services
 
             var result = await _userRepository.CreateAsync(user);
 
+            if (result == null)
+            {
+                return new UserResponseDto
+                {
+                    Success = false,
+                    Message = "El telefono ya está en uso"
+                };
+            }
+            
             return new UserResponseDto
             {
                 Success = true,
