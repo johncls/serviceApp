@@ -33,7 +33,7 @@ namespace ServiceApp.Application.DTOs
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? LastMessageAt { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; } = false;
     }
 
     public class UserResponseDtoListPaginations
