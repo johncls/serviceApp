@@ -89,7 +89,20 @@ namespace ServiceApp.Application.Services
             var userResponseDataList = new List<UserResponseDtoList>();
             foreach (var user in users)
             {
-                userResponseDataList.Add(new UserResponseDtoList { _id = user._id, Identification = user.Identification, Name = user.Name, PhoneNumber = user.PhoneNumber, Message = user.Message, MessageCount = user.MessageCount, Status = user.Status, CreatedAt = user.CreatedAt, UpdatedAt = user.UpdatedAt, LastMessageAt = user.LastMessageAt });
+                userResponseDataList.Add(new UserResponseDtoList
+                {
+                    _id = user._id,
+                    Identification = user.Identification,
+                    Name = user.Name,
+                    PhoneNumber = user.PhoneNumber,
+                    Message = user.Message,
+                    MessageCount = user.MessageCount,
+                    Status = user.Status,
+                    IsActive = user.IsActive,
+                    CreatedAt = user.CreatedAt,
+                    UpdatedAt = user.UpdatedAt,
+                    LastMessageAt = user.LastMessageAt
+                });
             }
             return new UserResponseDtoListPaginations { TotalCount = totalCount, Users = userResponseDataList, Page = page, PageSize = pageSize };
         }

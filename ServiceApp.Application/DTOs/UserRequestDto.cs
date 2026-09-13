@@ -11,7 +11,7 @@ namespace ServiceApp.Application.DTOs
         public string Name { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
     }
 
     public class UserLoginRequestDto
